@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  padding: 12px;
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.card {
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
+.toolbar {
+  font-size: 1rem;
+}
+
+.form .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.full { flex: 1 1 auto; min-width: 0; }
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.result { margin-top: 12px; text-align: center; }
+
+.history-card {
+  padding: 0;
+}
+
+.spacer { flex: 1 1 auto; }
+
+.nohist { padding: 12px; font-size: 0.95rem; color: rgba(0,0,0,0.6); }
+
+/* Mobile-first */
+@media (min-width: 600px) {
+  :host { padding: 24px; }
+}

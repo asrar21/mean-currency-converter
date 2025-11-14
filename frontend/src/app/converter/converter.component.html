@@ -1,0 +1,84 @@
+<mat-card class="card">
+  <mat-toolbar color="primary" class="toolbar">
+    <span>Currency Converter</span>
+  </mat-toolbar>
+
+  <div class="form">
+    <div class="row">
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>From</mat-label>
+        <mat-select [formControl]="baseControl">
+          <mat-option *ngFor="let k of (symbolsList | keyvalue)" [value]="k.key">
+            {{k.key}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-icon-button (click)="swap()" aria-label="swap">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>To</mat-label>
+        <mat-select [formControl]="targetControl">
+          <mat-option *ngFor="let k of (symbolsList | keyvalue)" [value]="k.key">
+            {{k.key}} 
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Amount</mat-label>
+      <input matInput numericOnly [formControl]="amountControl" type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Use historic rate (optional)</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="dateControl">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="onConvert()" [disabled]="converting">
+        Convert
+      </button>
+      <mat-progress-spinner *ngIf="converting" diameter="28" mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+    <div class="result" *ngIf="convertedValue !== null">
+      <h3>{{ amountControl.value }} {{ baseControl.value }} =</h3>
+      <h2>{{ convertedValue }} {{ targetControl.value }}</h2>
+      <p *ngIf="usedRate">Rate: {{ usedRate }}</p>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card class="history-card">
+  <mat-toolbar>
+    <span>Conversion History</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="clearHistory()" matTooltip="Clear history">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-list *ngIf="history.length; else noHistory">
+    <mat-list-item *ngFor="let h of history">
+      <div matLine>
+        {{ h.amount }} {{ h.base }} → {{ h.result }} {{ h.target }}
+      </div>
+      <div matLine>
+        <small>
+          {{ h.dateUsed ? ('Rate on ' + h.dateUsed) : 'Latest rate' }} •
+          {{ (h.timestamp | date:'short') }}
+        </small>
+      </div>
+    </mat-list-item>
+  </mat-list>
+
+  <ng-template #noHistory>
+    <p class="nohist">No conversions yet.</p>
+  </ng-template>
+</mat-card>
