@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   // configure backend base url here or via env replacement when deploying
-  private API = (window as any).__env?.API_BASE || 'http://localhost:3000/api/currency';
+  private API = 'https://mean-currency-converter.vercel.app/api/currency';
 
   constructor(private http: HttpClient) { console.log("API",this.API)}
  
